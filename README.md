@@ -125,6 +125,16 @@ For more details on parameters, check class varnish.
 
    For more examples see `tests/vcl_backends_probes_directors.pp`
 
+### varnish vcl error_file
+
+   Definition `varnish::vcl::error_file` allows to configure a custom error page.
+
+   This file must contain only the inner part of the html `<body>` tag.
+
+    varnish::vcl {'
+      error_file => '/var/www/errors/50x.html',
+    '}
+
 ## Usaging class varnish::vcl
 
    Configure probes, backends, directors and selectors  

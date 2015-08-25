@@ -203,6 +203,27 @@ sub vcl_error {
         return(deliver);
      }
 
+#     if ( obj.status >= 500 && obj.status <= 505) {
+     if (obj.status != 200) {
+       set obj.http.Content-Type = "text/html; charset=utf-8";
+       set obj.http.Retry-After = "5";
+       synthetic {"
+       <?xml version="1.0" encoding="utf-8"?>
+         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+              <html>
+                <head>
+                  <title>"} + obj.status + " " + obj.response + {"</title>
+                </head>
+                <body>"}
+                  +std.fileread("<%= @error_file %>")+
+                  {"<p>"} + obj.status + " " + obj.response + {"</p>
+                </body>
+              </html>
+       "};
+       return(deliver);
+     }
+
      set obj.http.Content-Type = "text/html; charset=utf-8";
      set obj.http.Retry-After = "5";
      synthetic {"
@@ -225,11 +246,12 @@ sub vcl_error {
  "};
      return (deliver);
 }
+
 # 
 # sub vcl_init {
-# 	return (ok);
+#      return (ok);
 # }
 # 
 # sub vcl_fini {
-# 	return (ok);
+#      return (ok);
 # }

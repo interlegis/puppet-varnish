@@ -50,6 +50,7 @@ class varnish::vcl (
   $logrealip         = false,
   $cond_requests     = false,
   $drop_stat_cookies = true,
+  $error_file        = undef,
 ) {
 
   include varnish
