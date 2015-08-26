@@ -131,9 +131,9 @@ For more details on parameters, check class varnish.
 
    This file must contain only the inner part of the html `<body>` tag.
 
-    varnish::vcl {'
+    class { 'varnish::vcl':
       error_file => '/var/www/errors/50x.html',
-    '}
+    }
 
 ## Usaging class varnish::vcl
 
